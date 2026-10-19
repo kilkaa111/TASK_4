@@ -1,3 +1,4 @@
+using System.Numerics;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using ShopDesktop.Models;
@@ -89,12 +90,12 @@ public partial class MainWindow : Window
         {
             // Подсказка: Поиск по точному названию - это круто. Но что если пользователь напишет "кофе", а не "Кофе"?
             // Используй метод .ToLower() для имени продукта и вводимого текста
-            products = products.Where(p => p.Name.ToLower().Contains(text.ToLower));
+            products = products.Where(p => p.Name.ToLower().Contains(text.ToLower()));
         }
 
         // Фильтр 3. Только в наличии (задание 4) — напиши сам по образцу фильтров выше.
         // Подсказка: галочка стоит, если InStockBox.IsChecked == true
-        if (InStockBox.IsCheked == true)
+        if (InStockBox.IsChecked == true)
         {
             products = products.Where(p => p.Stock > 0);
         }
@@ -130,11 +131,12 @@ public partial class MainWindow : Window
 
         // Задание 6
         // Подсказка: Здесь мы получаем список товаров в заказе по ClientId, а нужно по Id odrer'а.
-        var items = await Api.GetOrderItems(order.ClientId);
+        var items = await Api.GetOrderItems(order.Id);
         ItemsGrid.ItemsSource = items;
 
         // Задание 7. Посчитай сумму заказа и покажи её в TotalText, например: «Сумма заказа: 24000 ₽»
-
+var total = items.Sum(i => i.Price * i.Quantity);
+TotalText.Text = $"Итого: {total:N2}";
     }
 
     // ============ Часть C. Изменение данных ============
