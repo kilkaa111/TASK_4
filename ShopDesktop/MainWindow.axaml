@@ -38,9 +38,9 @@
                             <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="60" />
                             <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" />
                             <!-- ПОДСКАЗКА: что то тут не так...                   ТУТ -->
-                            <DataGridTextColumn Header="Цена, ₽" Binding="{Binding Prise}" Width="120" />
+                            <DataGridTextColumn Header="Цена, ₽" Binding="{Binding Price}" Width="120" />
                             <!-- ПОДСКАЗКА: Price - это цена, а нам нужен остаток. Посмотри в Models/Models.cs, какие есть параметры у Товара -->
-                            <DataGridTextColumn Header="Остаток, шт." Binding="{Binding Price}" Width="120" />
+                            <DataGridTextColumn Header="Остаток, шт." Binding="{Binding Stock}" Width="120" />
                         </DataGrid.Columns>
                     </DataGrid>
 

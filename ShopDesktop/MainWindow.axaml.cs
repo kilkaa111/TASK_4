@@ -80,7 +80,7 @@ public partial class MainWindow : Window
         {
             // Подсказка: Сейчас оно сравнивает Id ТОВАРА и Id категории. Очевидно, что они будут всегда разные.
             // У Product есть свойство CategoryId, которое можно использовать для этого. Как мы делали на дне 3?
-            products = products.Where(p => p.Id == category.Id);
+            products = products.Where(p => p.CategoryId == category.Id);
         }
 
         // Фильтр 2. Поиск по названию (задание 3)
@@ -89,20 +89,22 @@ public partial class MainWindow : Window
         {
             // Подсказка: Поиск по точному названию - это круто. Но что если пользователь напишет "кофе", а не "Кофе"?
             // Используй метод .ToLower() для имени продукта и вводимого текста
-            products = products.Where(p => p.Name.Contains(text));
+            products = products.Where(p => p.Name.ToLower().Contains(text.ToLower));
         }
 
         // Фильтр 3. Только в наличии (задание 4) — напиши сам по образцу фильтров выше.
         // Подсказка: галочка стоит, если InStockBox.IsChecked == true
-        
-
+        if (InStockBox.IsCheked == true)
+        {
+            products = products.Where(p => p.Stock > 0);
+        }
 
         var result = products.ToList();
         ProductsGrid.ItemsSource = result;
 
         // Задание 5. Покажи в FoundText, сколько товаров в таблице, например: «Найдено: 3»
         // Подсказка: Замени "НЕИЗВЕСТНО" на количество товаров в таблице. Используй свойство Count у result.
-        FoundText.Text = $"Найдено: {"НЕИЗВЕСТНО"}";
+        FoundText.Text = $"Найдено: {result.Count}";
     }
 
     // ============ Часть B. Заказы ============
