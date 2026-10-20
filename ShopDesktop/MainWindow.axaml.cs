@@ -160,7 +160,11 @@ TotalText.Text = $"Итого: {total:N2}";
         }
 
         // Задание 8. По аналогии с PriceBox выше, сделай проверку на число и запиши результат в stock. StockBox
-        int stock = 0;
+        if (!int.TryParse(StockBox.Text, out int stock))
+        {
+            ShowMessage("Остаток должен быть числом");
+            return;
+        }
 
         var product = new Product
         {
@@ -185,11 +189,39 @@ TotalText.Text = $"Итого: {total:N2}";
 
         // Задание 8. 
         // Подсказка: Добавь перезагрузку таблицы с помощью вызова LoadProducts();
+        ShowMessage($"Товар «{product.Name}» добавлен");
+        NameBox.Text = "";
+        PriceBox.Text = "";
+        StockBox.Text = "";
+
+        LoadProducts();
     }
 
     // Задание 9. Кнопка «Сменить статус». Напиши сам — по образцу задания 8
     private async void SetStatus_Click(object? sender, RoutedEventArgs e)
     {
+ var product = ProductsGrid.SelectedItem as Product;
+    if (product == null)
+    {
+        ShowMessage("Выбери товар в таблице");
+        return;
+    }
 
+    var status = StatusBox.SelectedItem as string;
+    if (status == null)
+    {
+        ShowMessage("Выбери статус");
+        return;
+    }
+
+    var error = await Api.SetStatus(product.Id, status);
+    if (error != null)
+    {
+        ShowMessage(error);
+        return;
+    }
+
+    ShowMessage($"Статус товара «{product.Name}» изменён");
+    LoadProducts();
     }
 }
